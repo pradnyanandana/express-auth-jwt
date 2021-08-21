@@ -6,11 +6,13 @@ const login = joi.object({
 })
 
 const register = joi.object({
-    username: joi.string().required,
-    email: joi.string().required,
-    password: joi.string().required
+    username: joi.string().required(),
+    email: joi.string().required(),
+    password: joi.string().required(),
+    role: joi.string()
 })
 
 module.exports = {
-    login
+    login,
+    register
 }

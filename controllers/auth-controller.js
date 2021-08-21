@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt')
 const ApiError = require('../helpers/api-error')
+const { generate } = require('../helpers/auth-jwt')
 const saltRounds = 10
 const db = require('./../db/models')
 
@@ -21,6 +22,7 @@ const register = async(req, res, next) => {
         if (error.message === 'Validation error') {
             next(ApiError.badRequest('Username or Email has beed registered!'))
         } else {
+            console.log(error)
             next(error)
         }
     }
@@ -43,7 +45,13 @@ const login = async(req, res, next) => {
                 return res.json({
                     success: true,
                     message: "sukses login",
-                    data: user
+                    data: user,
+                    token: generate({
+                        id: user.id,
+                        username: user.username,
+                        email: user.email,
+                        role: user.role
+                    })
                 })
             }
         }
